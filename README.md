@@ -5,4 +5,5 @@
 4. Vous ne devez utiliser que du CSS personnalisé et du JavaScript pur, sans jQuery, Bootstrap ou autre librairie.
 
 repo code dans https://github.com/jpp7557/GameOn-website-JP.git
+
 Publié à l'adresse suivante: "https://jpp7557.github.io/GameOn-website-JP/" 
