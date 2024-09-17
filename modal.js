@@ -8,7 +8,6 @@ const checkboxLabel = document.querySelector("label[for='checkbox1']");
 modalBtn.forEach((btn) => btn.addEventListener("click", launchModal));
 
 closeDialogBtn.addEventListener('click', () => {
-  console.log("click click");
   modalbg.style.display = "none"; // Close the dialog
 });
 
@@ -49,15 +48,12 @@ function launchModal() {
 
 function validateEmail() {
   const emailValue = emailInput.value.trim();
-  console.log("In validateEmail", emailValue);
 
   // Check if the email format is valid
   if (emailRegex.test(emailValue)) {
-    console.log("emailValue: ", emailValue);
     emailError.style.display = 'none'; // Hide the error message if the format is valid
     return true;
   } else {
-    console.log("emailValue: ", emailValue);
     emailError.style.display = 'block';  // Show the error message if the format is invalid
     return false;
   }
@@ -65,7 +61,6 @@ function validateEmail() {
 
 function validateAcception(checkbox) {
   
-  console.log("Termes acceptés ? ", checkbox.checked);
   if (checkbox.checked) {
     checkbox1Message.style.display = "none";
   } else {
@@ -79,10 +74,6 @@ function validateBirthDate() {
     const birthdateValue = birthdateInput.value.trim();
     const re = /^(\d{4})-(\d{2})-(\d{2})$/;
     const match = re.exec(birthdateValue); // result: ["yyyy-mm-dd", "yyyy", "mm", "dd"]
-
-    console.log("In validateBirthdate 1:", birthdateValue);
-    console.log("   match = ", match);
-
 
     const year = parseInt(match[1], 10);
     const month = parseInt(match[2], 10);
@@ -98,7 +89,6 @@ function validateBirthDate() {
     if (m < 0 || (m === 0 && today.getDate() < userBirthdate.getDate())) {
         age--;
     }
-    console.log("age :", age);
 
     if (age >= 18) {
       birthdateError.style.display = "none";
@@ -120,12 +110,9 @@ function validateBirthDate() {
 
     for (const radio of radios) {
     //  selectedRadio = radio;
-      console.log("isLocationChosen boucle:",boucle,", ", radio.checked);
-      boucle++;
       if (radio.checked) {
         locationSelected = true;
         locationError.style.display = 'none'; // Hide the error message if the format is valid
-        console.log("isLocationChosen 1: ", radio.checked);       
         break;
       } 
     };
@@ -136,8 +123,6 @@ function validateBirthDate() {
 
 function wait4Merci(event, form) {
   event.preventDefault(); // Prevent form submit
-  console.log('Form submit prevented. Waiting for closeMerci button click...');
-  console.log('Form inactive ...');
   form.classList.add('inactive-form');
   closeDialogBtn.classList.add('inactive-form');
 
@@ -145,7 +130,6 @@ function wait4Merci(event, form) {
   // This function simulates a loop
   const loop = setInterval(() => {
     if (!isLooping) {
-      console.log('Loop stopped.');
       clearInterval(loop);  // Break the loop by clearing the interval
       // Resume form submission here after the loop is stopped
       form.submit();  // Submit the form
@@ -158,7 +142,6 @@ function wait4Merci(event, form) {
 
 // Add an event listener to the closeMerci button to resume Form submit
 document.getElementById('closeMerci').addEventListener('click', () => {
-    console.log('Button clicked! Stopping the loop.');
 
     formulaire.classList.remove('inactive-form');
     closeDialogBtn.classList.remove('inactive-form');
@@ -171,7 +154,6 @@ document.getElementById('closeMerci').addEventListener('click', () => {
 
 
 function nameCheck(uName) {
-  console.log("nameCheck uName: ", uName)
   if (!uName || uName.length < 2) {
     return false;
   }
@@ -180,7 +162,6 @@ function nameCheck(uName) {
 
 function firstnameCheck() {
   const name = firstnameInput.value.trim();
-  console.log("firstnameCheck name: ", name)
   firstnameError.style.display = 'none';
 
   if (!nameCheck(name)) {  //name format not valid
@@ -191,7 +172,6 @@ function firstnameCheck() {
 
 function lastnameCheck() {
   const name = lastnameInput.value.trim();
-  console.log("firstnameCheck name: ", name)
   lastnameError.style.display = 'none';
 
   if (!nameCheck(name)) {  //name format not valid
@@ -226,7 +206,6 @@ myFormulaire.addEventListener("submit", (event) => {
     const lastName = document.querySelector('#last').value.trim();
     const checkbox = document.querySelector('#checkbox1');
 
-    console.log("Start checking ...");
 
     // Validate form inputs
     if ( !nameCheck(firstName) || !nameCheck(lastName) || !validateEmail() ||
@@ -238,8 +217,6 @@ myFormulaire.addEventListener("submit", (event) => {
         //alert("Merci !");
         merciPopup.style.display = 'block';
         merciMessage.textContent = "Merci pour votre réservation !";
-        console.log("The End ... merciPopup display :", merciPopup.style.display);
-        console.log("Entering wait ... modalbg display: ",modalbg.style.display);
         wait4Merci(event, myFormulaire);
     }
 })
