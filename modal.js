@@ -3,7 +3,7 @@ const modalbg = document.querySelector(".bground");
 const modalBtn = document.querySelectorAll(".modal-btn");
 const formData = document.querySelectorAll(".formData");
 const closeDialogBtn = document.querySelector('.close');
-const checkboxLabel = document.querySelector("label[for='checkbox1']");
+//const checkboxL1 = document.querySelector("label[for='checkbox1']");
 // launch modal event
 modalBtn.forEach((btn) => btn.addEventListener("click", launchModal));
 
@@ -20,7 +20,10 @@ const emailInput = document.getElementById('email');
 const emailError = document.getElementById('emailError');
 const birthdateInput = document.getElementById('birthdate');
 const birthdateError = document.getElementById('birthdateError');
+const checkbox1 = document.getElementById('checkbox1');
 const checkbox1Message = document.getElementById("checkbox1Msg");
+const quantityInput = document.getElementById('quantity');
+const quantityError = document.getElementById('quantityError');
 const locationError = document.getElementById('locationError');
 const merciMessage = document.getElementById('merciMessage');
 const merciPopup = document.getElementById('merciPopup');
@@ -38,13 +41,14 @@ function editNav() {
   } else {
     x.className = "topnav";
   }
-
 }
 
 // launch modal form
 function launchModal() {
   modalbg.style.display = "block";
 }
+
+// validation functions
 
 function validateEmail() {
   const emailValue = emailInput.value.trim();
@@ -59,32 +63,38 @@ function validateEmail() {
   }
 }
 
-function validateAcception(checkbox) {
-  
-  if (checkbox.checked) {
+function validateAcception() {
+
+  if (checkbox1.checked) {
     checkbox1Message.style.display = "none";
   } else {
     checkbox1Message.style.display = "block";
   }
-  return checkbox.checked;
+  return checkbox1.checked;
 }
 
 function validateBirthDate() {
 
-    const birthdateValue = birthdateInput.value.trim();
     const re = /^(\d{4})-(\d{2})-(\d{2})$/;
-    const match = re.exec(birthdateValue); // result: ["yyyy-mm-dd", "yyyy", "mm", "dd"]
 
-    const year = parseInt(match[1], 10);
-    const month = parseInt(match[2], 10);
-    const day = parseInt(match[3], 10);
+    let birthdateValue = birthdateInput.value;
+    let match = re.exec(birthdateValue); // if valid date:  result ["yyyy-mm-dd", "yyyy", "mm", "dd"]
 
-    const userBirthdate = new Date(year, month - 1, day); // Create a Date object with user provided birthday
-    const today = new Date();
-    const m = today.getMonth() - userBirthdate.getMonth();
+    if (!match) {
+      birthdateError.style.display = "block";
+      return false;
+    }
+
+    let year = parseInt(match[1], 10); // sting to int conversion
+    let month = parseInt(match[2], 10);
+    let day = parseInt(match[3], 10);
+
+    let userBirthdate = new Date(year, month - 1, day); // Create a Date object with user provided birthday
+    let today = new Date();
+    let m = today.getMonth() - userBirthdate.getMonth();
 
     //age calculation
-    const age = today.getFullYear() - userBirthdate.getFullYear();
+    let age = today.getFullYear() - userBirthdate.getFullYear();
     //ajust age from month and Date 
     if (m < 0 || (m === 0 && today.getDate() < userBirthdate.getDate())) {
         age--;
@@ -100,16 +110,26 @@ function validateBirthDate() {
 
   }
 
+  function participationNumber() {
+    
+      let pNumberVal = quantityInput.value;
+
+      if ((pNumberVal == "") || (pNumberVal < 0) || (pNumberVal > 99) ) {
+        quantityError.style.display = "block";
+        return false;
+      }
+      quantityError.style.display = "none";
+      return true;  
+  }
+
   function isLocationChosen() {
-    const radios = document.querySelectorAll('input[name="location"]');
-    let boucle = 1; 
-   // let selectedRadio = null;
+
+    let radios = document.querySelectorAll('input[name="location"]');
     let locationSelected = false;
 
     locationError.style.display = 'block'; // set display
 
     for (const radio of radios) {
-    //  selectedRadio = radio;
       if (radio.checked) {
         locationSelected = true;
         locationError.style.display = 'none'; // Hide the error message if the format is valid
@@ -128,7 +148,7 @@ function wait4Merci(event, form) {
 
 
   // This function simulates a loop
-  const loop = setInterval(() => {
+  let loop = setInterval(() => {
     if (!isLooping) {
       clearInterval(loop);  // Break the loop by clearing the interval
       // Resume form submission here after the loop is stopped
@@ -154,14 +174,14 @@ document.getElementById('closeMerci').addEventListener('click', () => {
 
 
 function nameCheck(uName) {
-  if (!uName || uName.length < 2) {
-    return false;
-  }
-  return true;
+
+  const namePattern = /^[a-zA-Z]{2,}$/;  // Only letters, at least 2 characters
+  return namePattern.test(uName);
 }
 
 function firstnameCheck() {
-  const name = firstnameInput.value.trim();
+
+  let name = firstnameInput.value.trim();
   firstnameError.style.display = 'none';
 
   if (!nameCheck(name)) {  //name format not valid
@@ -171,14 +191,17 @@ function firstnameCheck() {
 }
 
 function lastnameCheck() {
-  const name = lastnameInput.value.trim();
+
+  let name = lastnameInput.value.trim();
   lastnameError.style.display = 'none';
 
-  if (!nameCheck(name)) {  //name format not valid
+  if ( name === "" || !nameCheck(name)) {  //name format not valid
     lastnameError.style.display = 'block';
   }
   return nameCheck(name);
 }
+
+// add more script ***** END
 
 
 // Checking valid format while quitting the input fields
@@ -186,33 +209,38 @@ firstnameInput.addEventListener('blur', firstnameCheck);
 lastnameInput.addEventListener('blur', lastnameCheck);
 emailInput.addEventListener('blur', validateEmail);
 birthdateInput.addEventListener('blur', validateBirthDate);
+quantityInput.addEventListener('blur', participationNumber);
 
-
-
-// add more script ***** END
 
 
 /* ********************* */
 /*  Form Sumit handling  */
 /* ********************* */
 
-let isLooping = true;  //
+let isLooping = true;  // tag for wait4Merci() , init value 
 const myFormulaire = document.getElementById('formulaire');
+
 //  Form Submit event Listening ...
 myFormulaire.addEventListener("submit", (event) => {
 
     // Get form values
-    const firstName = document.querySelector('#first').value.trim();
-    const lastName = document.querySelector('#last').value.trim();
-    const checkbox = document.querySelector('#checkbox1');
+    //const checkbox = document.querySelector('#checkbox1');
 
 
-    // Validate form inputs
-    if ( !nameCheck(firstName) || !nameCheck(lastName) || !validateEmail() ||
-     !validateBirthDate() || !isLocationChosen() || !validateAcception(checkbox)) {
+    let notValidFirstName = !firstnameCheck();
+    let notValidLastName  = !lastnameCheck();
+    let notValidEmail     = !validateEmail();
+    let notValidBirthDate = !validateBirthDate();
+    let nbParticipation   = !participationNumber();
+    let notValidLocation  = !isLocationChosen();
+    let notAccepted       = !validateAcception();
 
+    let formatError = notValidFirstName || notValidLastName || notValidEmail ||
+                      notValidBirthDate || nbParticipation  || notValidLocation || notAccepted;
+
+    // Form submit if no error
+    if (formatError) {
         event.preventDefault();
-
     } else {
         //alert("Merci !");
         merciPopup.style.display = 'block';
