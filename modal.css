@@ -68,39 +68,6 @@ img {
   display: none;
 }
 
-@media screen and (max-width: 768px) {
-  .topnav a {display: none;}
-  .topnav a.icon {
-    float: right;
-    display: block;
-  }
-}
-
-@media screen and (max-width: 768px) {
-  .topnav.responsive {position: relative;}
-  .topnav.responsive .icon {
-    position: absolute;
-    right: 0;
-    top: 0;
-  }
-  .topnav.responsive a {
-    float: none;
-    display: block;
-    text-align: left;
-  }
-}
-
-
-
- @media screen and (max-width: 540px) {
-  .topnav a {display: none;}
-  .topnav a.icon {
-    float: right;
-    display: block;
-    margin-top: -15px;
-  }
-} 
-
 main {
   font-size: 130%;
   font-weight: bolder;
@@ -185,11 +152,12 @@ main {
 
 .inactive-form {
   pointer-events: none; /* Make form non-clickable*/
-  opacity: 0.2; /* Visual cue that form is inactive */
-  z-index: 100;
+  opacity: 0.8; /* Visual vue that form is inactive */
+  z-index: 80;
 }
 
 .modal-body {
+  background-color: #232323;
   padding: 15px 8%;
   margin: 15px auto;
 }
@@ -333,6 +301,43 @@ input {
   cursor: pointer;
   border: 0;
 }
+
+.mercipop {
+  margin: 5% auto;
+  width: 100%;
+  max-width: 500px;
+  height: 770px;
+  animation-name: modalopen;
+  animation-duration: var(--modal-duration);
+  background: #232323;
+  border-radius: 10px;
+  overflow: hidden;
+  position: absolute;
+  top:0;
+  left: calc(50vw - 250px);
+  color: #fff;
+  padding-top: 10px;
+  z-index: 300;
+  justify-items: center;
+  align-items: center;
+}
+
+#merciMessage {
+  font-size: 36px;
+  text-align: center;
+  margin: 250px 100px;
+}
+
+#merciPopup {
+  display:none;
+}
+
+#merciFermer {
+  margin: auto;
+  margin-bottom: 20px;
+}
+
+
 /* custom select styles */
 .custom-select {
   position: relative;
@@ -493,13 +498,6 @@ input {
   50% { transform: translateX(5px); }
 }
 
-@keyframes shake-merci {
-  0%, 100% { transform: translate(0, 0); }
-  25%, 75% { transform: translateY(50px) translateX(-10px); }
-  50% { transform: translateY(50px) translateX(+10px); }
-}
-
-
 footer {
   padding-left: 2vw;
   padding-right: 2vw;
@@ -544,6 +542,37 @@ footer {
   }
 }
 
+@media screen and (max-width: 768px) {
+  .topnav a {display: none;}
+  .topnav a.icon {
+    float: right;
+    display: block;
+  }
+  .content,
+  .mercipop {margin: 25% auto;}  
+
+  .topnav.responsive {position: relative;}
+  .topnav.responsive .icon {
+    position: absolute;
+    right: 0;
+    top: 0;
+  }
+  .topnav.responsive a {
+    float: none;
+    display: block;
+    text-align: left;
+  }
+}
+
+ @media screen and (max-width: 540px) {
+  .topnav a {display: none;}
+  .topnav a.icon {
+    float: right;
+    display: block;
+    margin-top: -15px;
+  }
+} 
+
 @keyframes modalopen {
   from {
     opacity: 0;
@@ -552,25 +581,4 @@ footer {
   to {
     opacity: 1;
   }
-}
-
-#merciPopup {
-  display:none;
-  font-size: 1rem;
-  color: white;
-  position:fixed;
-  width:350px;
-  height : 60px;
-  top:50%;
-  left:50%;
-  transform:translate(-180px, 0px);
-  padding:20px;
-  background-color:#fe142f; 
-  border:1px solid #e00303;
-  border-radius: 8px;
-  z-index:201;
-  animation: shake-merci 0.3s;
-}
-#closeMerci {
-  margin-left:24px;
 }

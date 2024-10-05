@@ -4,7 +4,7 @@
     <meta charset="utf-8" />
     <title>Reservation-From-githup-OC</title>
     <meta name="viewport" content="width=device-width,initial-scale=1" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/fontawesome.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css?family=DM+Sans" rel="stylesheet">
     <link rel="stylesheet" href="modal.css" />
   </head>
@@ -21,7 +21,7 @@
       <a href="#"><span>Contact</span></a>
       <a href="#"><span>Évènements passés</span></a>
       <a href="javascript:void(0);" class="icon" onclick="editNav()">
-        <i class="fa fa-bars"></i>
+        <i class="fa-solid fa-bars"></i>
       </a>
     </div>
     </div>
@@ -87,7 +87,7 @@
               </div>
               <p class="text-label">A quel tournoi souhaitez-vous participer cette année ?</p>
               <!--choix de ville-->
-              <div class="formData">
+              <div class="formData locationChoice">
                 <input class="checkbox-input" type="radio" id="location1" name="location" value="New York"/>
                 <label class="checkbox-label" for="location1">
                   <span class="checkbox-icon"></span>
@@ -145,12 +145,13 @@
               <!--bouton submit-->
               <input class="btn-submit" type="submit" class="button" value="C'est parti"/>
             </form>
-            <div id="merciPopup">
-              <span id="merciMessage"></span>
-              <button id="closeMerci">Close</button>
-            </div>
           </div>
         </div>
+      </div>
+      <div class="mercipop" id="merciPopup">
+        <span class="close" id="merciClose"></span>
+        <span id="merciMessage"></span>
+        <button class="btn-submit" id="merciFermer">Fermer</button>
       </div>
     </main>
     <footer>
